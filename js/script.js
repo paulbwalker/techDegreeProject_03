@@ -21,15 +21,15 @@ $(function () {
 	const toggleFields = () => {
 		$('#color optgroup').remove();
 
-		if ($("#design").val() === 'js puns') {
+		if ($('#design').val() === 'js puns') {
 			$('#color').append($jsPuns);
 		}
-		if ($("#design").val() === 'heart js') {
+		if ($('#design').val() === 'heart js') {
 			$('#color').append($jsHeart);
 		}
 	};
 
 // When you select the theme you call the toggleFields function
-	$("#design").on('change', toggleFields);
+	$('#design').on('change', toggleFields);
 
 });
