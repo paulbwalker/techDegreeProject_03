@@ -12,5 +12,24 @@ $(function () {
 			$('#other-title').addClass('hide-other');
 		}
 	});
+// Remove select options in the optgroup
+	const $jsPuns = $('#puns').remove();
+	const $jsHeart = $('#hearts').remove();
+
+// This function allows you to select which optgroup you want to see 
+// and displays which groupping you want to display
+	const toggleFields = () => {
+		$('#color optgroup').remove();
+
+		if ($("#design").val() === 'js puns') {
+			$('#color').append($jsPuns);
+		}
+		if ($("#design").val() === 'heart js') {
+			$('#color').append($jsHeart);
+		}
+	};
+
+// When you select the theme you call the toggleFields function
+	$("#design").on('change', toggleFields);
 
 });
