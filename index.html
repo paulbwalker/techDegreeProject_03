@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Register for Full Stack Conf</title>
+  <title>Register for Full Stack Conf</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="container">
+  <div class="container">
     
     <header>
       <span>Register for</span>
@@ -21,7 +21,7 @@
         <legend>Basic Info</legend>
         
         <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name" autofocus="true">
+        <input type="text" id="name" name="user_name" autofocus>
         
         <label for="mail">Email:</label>
         <input type="email" id="mail" name="user_email">
@@ -34,9 +34,9 @@
           <option value="designer">Designer</option>          
           <option value="student">Student</option>
           <option value="other">Other</option>  
-        </select> 
-        <input id="other-title" class="hide-other" type="text" name="job-role_other" placeholder="Your job role">          
-          
+        </select>
+        <fieldset >            
+          <input id="other-title" class="hide-selection" type="text" name="job-role_other" placeholder="Your job role">          
       </fieldset>
       
       <fieldset class="shirt">
@@ -55,7 +55,7 @@
         <div>
           <label for="design">Design:</label>
           <select id="design" name="user_design">
-            <option>Select Theme</option>
+            <option value="">Select Theme</option>
             <option value="js puns">Theme - JS Puns</option>
             <option value="heart js">Theme - I &#9829; JS</option>
           </select>
@@ -76,14 +76,14 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <label><input type="checkbox" name="all"> Main Conference — $200</label>
-        <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
-        <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
-        <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
-                  	
+        <label><input type="checkbox" name="all" value="200"> Main Conference — $200</label>
+        <label><input type="checkbox" name="js-frameworks" value="100"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" name="js-libs" value="100"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
+        <label><input type="checkbox" name="express" value="100"> Express Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" name="node" value="100"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
+        <label><input type="checkbox" name="build-tools" value="100"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
+        <label><input type="checkbox" name="npm" value="100"> npm Workshop — Wednesday 1pm-4pm, $100</label>
+          
       </fieldset>
       <fieldset>
         <legend>Payment Info</legend>
@@ -100,7 +100,7 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user_cc-num" type="text">
+            <input id="cc-num" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
@@ -125,25 +125,25 @@
             <option value="8">8 - August</option>
             <option value="9">9 - September</option>
             <option value="10">10 - October</option>
-            <option value="11">11 - November</option>	
-            <option value="12">12 - December</option>          		          
+            <option value="11">11 - November</option> 
+            <option value="12">12 - December</option>                       
           </select>
           <label for="exp-year">Expiration Year:</label>
           <select id="exp-year" name="user_exp-year">
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
             <option value="2018">2018</option>
             <option value="2019">2019</option>
-            <option value="2020">2020</option>        		          
-          </select> 	                  	         
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>                      
+          </select>                                
         </div>
 
         <div>
-        	<p>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
+          <p>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
         </div> 
 
         <div>
-        	<p>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
+          <p>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
         </div>                  
 
       </fieldset>        
@@ -151,8 +151,9 @@
       <button type="submit">Register</button>
       
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="js/script.js"></script>
-	</div>
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

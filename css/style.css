@@ -154,6 +154,19 @@ button:hover {
 }
 
 /* ================================= 
+  My Styles
+==================================== */
+.hide-selection {
+	visibility: hidden;
+}
+input.amount {
+	margin: 0;
+	padding: 0;
+	width: 50%;
+	display: inline;
+}
+
+/* ================================= 
   Media Queries
 ==================================== */
 

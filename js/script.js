@@ -48,3 +48,33 @@ $(function() {
 
 // Calls the function on the js puns or js heart. 
 	$('#design').on('change', toggleFields);
+
+/************************** REGISTER FOR ACTIVITIES *******************************/
+
+// Append span tag with the input field on the .activities page using unobtrusive javascript.
+	$('.activities').append(`<span>Amount: <input type="text" name="amount" class="amount"></span>`);
+
+// Hide the span when page loads
+	$('fieldset .activities span').addClass('hide-selection');	
+
+// This function takes the checked checkboxes and add them by getting the value attribute.
+	const addSum = (event) => {
+		let total = 0;
+		$('fieldset .activities span').removeClass('hide-selection');
+
+		$('input[type=checkbox]:checked').each(function () {
+			total += parseInt( $(this).val() );	
+		});
+
+		if ( total === 0 ) {
+			$('.amount').val('');
+		} else {
+			$('.amount').val('$'+ total);
+		}
+	};
+
+// Calls the addSum function when the checkbox is checked.
+	  $('input[type=checkbox]').on('click', addSum);
+
+
+}); // closing the jQuery ready function.
