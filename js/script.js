@@ -25,13 +25,17 @@ $(function() {
 // Remove the color options in the Global scope to disable the color dropdown menu.
 	const $colors = $('#color option').remove();
 	const $designs = $('#design option').first().remove();
- // Add hidden class to hide select theme.
 
+ // Add hidden class to hide select theme.
+ 	$('#color').append(`
+		  	<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
+          	<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
+          	<option value="gold">Gold (JS Puns shirt only)</option> 
+ 		`);
 // This function toggle between js puns and js heart when you select it and shows the proper color.
 	const toggleFields = () => {
 	// I used this as the Local scope for this function.
-		const $colors = $('#color option').remove();
-
+		let $colors = $('#color option').remove();
 
 		if ($('#design').val() === 'js puns') {
 			$('#color').append(`
@@ -39,23 +43,17 @@ $(function() {
               	<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
               	<option value="gold">Gold (JS Puns shirt only)</option> 
           	`);
-		} else if ($("#design").val() === 'heart js') {
+		} else if ( $("#design").val() === 'heart js') {
 			$('#color').append(`
 				<option value="tomato">Tomato (I &#9829; JS shirt only)</option>
               	<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
               	<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
 			`);
-		} else {
-			$('#color').append(`
-			  	<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
-              	<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
-              	<option value="gold">Gold (JS Puns shirt only)</option> 
-              	<option value="tomato">Tomato (I &#9829; JS shirt only)</option>
-              	<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
-              	<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
-          	`);
-		}
+		} 
 	};
+	// Calls the function on the js puns or js heart.
+	$('#design').on('change', toggleFields);
+
 
 /*   *****************    REGISTER FOR ACTIVITIES Cost *******************    */
 
@@ -81,7 +79,7 @@ $(function() {
 		}
 	};
 // Calls the addSum function when the checkbox is checked.
-	  $('input[type=checkbox]').on('change', addSum);
+	  $('input[type=checkbox]').on('click', addSum);
 
 
 /*    **************** REGISTER FOR ACTIVITIES Time Conflict ***************     */
@@ -103,6 +101,7 @@ $(function() {
 		}
 	};
 
+// This function call both timeConflict and disableCB when user checks the checkbox.
 	const sameTime = () => {
 		const $jsFrameworks = $('.activities label').eq(1);
 		const $jsFrameworksOff = $('input[name="js-frameworks"]');
