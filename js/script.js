@@ -3,18 +3,18 @@ $(function() {
 
 /****************************** JOB ROLE SECTION *********************************/
 
-	let $designOptionShow =	$('#colors-js-puns').removeClass('hide-selection');
-	// This function uses the select:selected pseudo class and removes the class 'hide-selection'
+	let $designOptionShow =	$('#colors-js-puns').removeClass('is-hidden');
+	// This function uses the select:selected pseudo class and removes the class 'is-hidden'
 	//  if the value matches with 'other' option then it adds the class else it removes that class.
 	const selectField = () => {
 		let $selectedOption = $('#title option:selected').val();
 
 		if ( $selectedOption === 'other' ) {
 			// the removeClass is used because the CSS has a visibility: hidden.
-			$('#other-title').removeClass('hide-selection');
+			$('#other-title').removeClass('is-hidden');
 		} else {
 			// if it does not match 'other' then I addClass to the selected element.
-			$('#other-title').addClass('hide-selection');
+			$('#other-title').addClass('is-hidden');
 		}
 	};
 
@@ -22,13 +22,16 @@ $(function() {
 
 /********************************* T-SHIRT INFO ***********************************/
 
-// Remove the color options in the Global scope.
+// Remove the color options in the Global scope to disable the color dropdown menu.
 	const $colors = $('#color option').remove();
+	const $designs = $('#design option').first().remove();
+ // Add hidden class to hide select theme.
 
 // This function toggle between js puns and js heart when you select it and shows the proper color.
 	const toggleFields = () => {
 	// I used this as the Local scope for this function.
 		const $colors = $('#color option').remove();
+
 
 		if ($('#design').val() === 'js puns') {
 			$('#color').append(`
@@ -36,13 +39,21 @@ $(function() {
               	<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
               	<option value="gold">Gold (JS Puns shirt only)</option> 
           	`);
-		}
-		if ($("#design").val() === 'heart js') {
+		} else if ($("#design").val() === 'heart js') {
 			$('#color').append(`
 				<option value="tomato">Tomato (I &#9829; JS shirt only)</option>
               	<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
               	<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
 			`);
+		} else {
+			$('#color').append(`
+			  	<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
+              	<option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
+              	<option value="gold">Gold (JS Puns shirt only)</option> 
+              	<option value="tomato">Tomato (I &#9829; JS shirt only)</option>
+              	<option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
+              	<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
+          	`);
 		}
 	};
 
@@ -69,29 +80,57 @@ $(function() {
 			$('.amount').val('Amount: ' + '$ '+ total);
 		}
 	};
-
+// Calls the addSum function when the checkbox is checked.
+	  $('input[type=checkbox]').on('change', addSum);
 
 
 /*    **************** REGISTER FOR ACTIVITIES Time Conflict ***************     */
 
+// This function selects the label or deselect the same time the workshop is held.
+	const timeConflict = (workshopName, Workshop) => {
+		if ( $(workshopName).prop("checked") ) {
+			Workshop.addClass('disabled');
+		} else {
+			Workshop.removeClass('disabled');
+		}
+	};
+// This function disables the checkbox when the workshop has the same time.
+	const disableCB = (inputName, WorkshopOff) => {
+		if ( $(inputName).prop("checked") ) {
+			WorkshopOff.prop('disabled', true);		
+		} else {
+			WorkshopOff.prop('disabled', false);		
+		}
+	};
+
 	const sameTime = () => {
+		const $jsFrameworks = $('.activities label').eq(1);
+		const $jsFrameworksOff = $('input[name="js-frameworks"]');
+		const $jsLibs = $('.activities label').eq(2);
+		const $jsLibsOff = $('input[name="js-libs"]');
 		const $express = $('.activities label').eq(3);
 		const $expressOff = $('input[name="express"]');
-		
-			if ( $('input[name="js-frameworks"]').prop( "checked" )) {
-				$express.addClass('disabled');
-				$expressOff.prop('disabled', true);
-			} else {
-				$express.removeClass('disabled');
-				$expressOff.prop('disabled', false);
-			}
+		const $node = $('.activities label').eq(4);
+		const $nodeOff = $('input[name="node"]');
 
+// Calls the function when the checkbox is selected and is removed when not checked.
+		timeConflict($jsFrameworksOff, $express); 
+		disableCB($jsFrameworksOff, $expressOff); 
+
+		timeConflict($expressOff, $jsFrameworks);
+		disableCB($expressOff, $jsFrameworksOff);
+
+		timeConflict($jsLibsOff, $node);
+		disableCB($jsLibsOff, $nodeOff);
+
+		timeConflict($nodeOff, $jsLibs);
+		disableCB($nodeOff, $jsLibsOff);
 			
 	};
 		
 
 // Calls the addSum function when the checkbox is checked.
-	  $('input[type=checkbox]').on('click', addSum, sameTime);
+	  $('input[type=checkbox]').on('click', sameTime);
 
 
 
