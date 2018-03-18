@@ -46,10 +46,7 @@ $(function() {
 		}
 	};
 
-// Calls the function on the js puns or js heart. 
-	$('#design').on('change', toggleFields);
-	
-/************************** REGISTER FOR ACTIVITIES *******************************/
+/*   *****************    REGISTER FOR ACTIVITIES Cost *******************    */
 
 // Append span tag with the input field on the .activities page using unobtrusive javascript.
 	$('.activities').append(`<span class="total-sum"><input type="text" name="amount" class="amount"></span>`);
@@ -73,8 +70,30 @@ $(function() {
 		}
 	};
 
+
+
+/*    **************** REGISTER FOR ACTIVITIES Time Conflict ***************     */
+
+	const sameTime = () => {
+		const $express = $('.activities label').eq(3);
+		const $expressOff = $('input[name="express"]');
+		
+			if ( $('input[name="js-frameworks"]').prop( "checked" )) {
+				$express.addClass('disabled');
+				$expressOff.prop('disabled', true);
+			} else {
+				$express.removeClass('disabled');
+				$expressOff.prop('disabled', false);
+			}
+
+			
+	};
+		
+
 // Calls the addSum function when the checkbox is checked.
-	  $('input[type=checkbox]').on('click', addSum);
+	  $('input[type=checkbox]').on('click', addSum, sameTime);
+
+
 
 
 }); // closing the jQuery ready function.
