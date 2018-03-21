@@ -156,14 +156,35 @@ button:hover {
 /* ================================= 
   My Styles
 ==================================== */
-.hide-selection {
-	visibility: hidden;
+
+input.invalid {
+	border-color: tomato;
+}
+input:focus.invalid {
+	outline: none;
+}
+.error {
+	font-weight: 500;
+	padding-top: .5em;
+	font-size: 1.15em;
+	color: tomato;
+
+	-moz-box-sizing: border-box;
+}
+.error.active {
+	padding: 0.3em;
+}
+.valid-input {
+	margin-bottom: .15em;
+	padding: 0;
+	color: tomato;
+}
+.disabled {
+	opacity: 0.5;
 }
 input.amount {
-	margin: 0;
-	padding: 0;
-	width: 50%;
-	display: inline;
+	background: transparent;
+	border-color: transparent;
 }
 
 /* ================================= 
