@@ -23,18 +23,15 @@ $(function() {
 /********************************* T-SHIRT INFO ***********************************/
 
 // Remove the color options in the Global scope to disable the color dropdown menu.
-	const $colors = $('#color option').remove();
- // Takes you back at the start of the application.
- 	$('#color').append(`
-		  	<option value="makeSelection"><-- Please make your selection</option>
-          	
- 		`);
+	const $colors = $('#colors-js-puns');
+		  $colors.addClass('is-hidden');
+
 // This function toggle between js puns and js heart when you select it and shows the proper color.
 	const toggleFields = () => {
 	// I used this as the Local scope for this function.
-		let $colors = $('#color option').remove();
+		let $color = $('#color option').remove();
 		const $designs = $('#design option').first().addClass('is-hidden');
-
+			$colors.removeClass('is-hidden');
 		if ($('#design').val() === 'js puns') {
 			$('#color').append(`
 			  	<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
