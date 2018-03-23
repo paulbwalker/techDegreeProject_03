@@ -21,14 +21,15 @@
         <legend>Basic Info</legend>
         
         <label for="name">Name:</label>
+        <span class="feedback user-name" aria-live="polite"></span>
         <input type="text" id="name" name="user_name" autofocus>
-        <span class="error" aria-live="polite"></span>
+
         
         <label for="mail">Email:</label>
+        <span class="feedback user-email" aria-live="polite"></span>
         <input type="email" id="mail" name="user_email">
-        <span class="error" aria-live="polite"></span>
-        
-        <label for="title">Job Role</label>
+
+         <label for="title">Job Role</label>
         <select id="title" name="user_title">
           <option value="full-stack js developer">Full Stack JavaScript Developer</option>
           <option value="front-end developer">Front End Developer</option>
@@ -101,20 +102,20 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
+            <span class="feedback user-ccNum" aria-live="polite"></span>
             <input id="cc-num" name="user_cc-num" type="text">
-            <span class="error" aria-live="polite"></span>
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
+            <span class="feedback user-zip" aria-live="polite"></span> 
             <input id="zip" name="user_zip" type="text">
-            <span class="error" aria-live="polite"></span> 
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
+            <span class="feedback user-cvv" aria-live="polite"></span>
             <input id="cvv" name="user_cvv" type="text"> 
-            <span class="error" aria-live="polite"></span>
           </div>
 
           <label for="exp-month">Expiration Date:</label>

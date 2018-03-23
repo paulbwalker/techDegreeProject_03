@@ -171,6 +171,24 @@ input:focus.invalid {
 
 	-moz-box-sizing: border-box;
 }
+.user-name,
+.user-email {
+	font-weight: 500;
+	margin-top: 0;
+	padding-top: 0;
+	font-size: .95em;
+	color: tomato;
+}
+.user-ccNum,
+.user-zip,
+.user-cvv {
+	margin-top: 0;
+	padding-top: 0;
+	font-weight: 500;
+	display: inline-block;
+	font-size: .75em;
+	color: tomato;
+}
 .error.active {
 	padding: 0.3em;
 }
