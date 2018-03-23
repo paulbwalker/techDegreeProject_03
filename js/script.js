@@ -23,15 +23,16 @@ $(function() {
 /********************************* T-SHIRT INFO ***********************************/
 
 // Remove the color options in the Global scope to disable the color dropdown menu.
-	const $colors = $('#colors-js-puns');
-		  $colors.addClass('is-hidden');
+	const $colors = $('#colors-js-puns').addClass('is-hidden');
 
+ 
 // This function toggle between js puns and js heart when you select it and shows the proper color.
 	const toggleFields = () => {
 	// I used this as the Local scope for this function.
-		let $color = $('#color option').remove();
+		$colors.removeClass('is-hidden');
 		const $designs = $('#design option').first().addClass('is-hidden');
-			$colors.removeClass('is-hidden');
+		const $themes = $('#color option').remove();
+
 		if ($('#design').val() === 'js puns') {
 			$('#color').append(`
 			  	<option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
@@ -68,6 +69,7 @@ $(function() {
 	const addSum = (event) => {
 		let total = 0;
 		$('.total-sum').removeClass('is-hidden');
+		$('.total-sum').addClass('total-sum');
 
 		$('input[type=checkbox]:checked').each(function () {
 			total += parseInt( $(this).val() );	
@@ -132,8 +134,6 @@ $(function() {
 // Calls the sameTime function when the checkbox is checked.
 	  $('input[type=checkbox]').on('click', sameTime);
 
-
-
 /*   *****************         PAYMENT INFO SECTION       *******************    */
 
 // Add the class to the select payment to hide that selection.
@@ -166,37 +166,34 @@ $(function() {
 // Assign a handler to the select option dropdown menu
 	$('#payment').on('change', makePayment);
 
-/*   *****************         VALIDATE FORM      *******************    */
+/*   *****************         VALIDATE FORM      *******************    */	
 
-// These codes enable the fast feedback when use skips input field that's required.
 	const $form = $('form');
 	enableFastFeedback($form);
-
-// When submitted the form validates the required fields.	
-	$form.submit(function(event) {
-	// Assign variables on elements the element that's called.
-		const $name = $('#name').val();
-		const $email = $('#mail').val();
-		const $checked = $('.activities input[type="checkbox"]').is(':checked');
-		const $ccNum = $('#cc-num').val();
-		const $zip = $('#zip').val();
-		const $cvv = $('#cvv').val();
-		const $activities = $('.activities legend').text();
 	
-	// Calls the function 
+	$form.submit(function(event) {
+		const name = $('#name').val();
+		const email = $('#mail').val();
+		const isChecked = $('.activities input[type="checkbox"]').is(':checked');
+		const ccNum = $('#cc-num').val();
+		const zip = $('#zip').val();
+		const cvv = $('#cvv').val();
+		const activities = $('.activities legend').text();
+
 		validateNameField( name, event );
 		validateEmailField( email, event );
+		validateCheckboxField( isChecked, event );
 		validateCCNumField( ccNum, event );
 		validateZipField( zip, event );
 		validateCvvField( cvv, event );
 
 	// Resets the form once the form is submitted.
-		$('form')[0].reset(); 		
-	});
+		$('form')[0].reset();
+	}); // Close the form function
 }); // closing the jQuery ready function.
 
-	const enableFastFeedback = (formElement) => {
-	const nameInput  = formElement.find("#name");
+const enableFastFeedback = (formElement) => {
+	const nameInput  = formElement.find('#name');
 	const emailInput = formElement.find('#mail');
 	const ccNumInput = formElement.find('#cc-num');
 	const zipInput   = formElement.find('#zip');
@@ -254,82 +251,81 @@ $(function() {
 	});
 
 };
-	const validateNameField = (name, event) => {
-		if ( !isValidName(name) ) {
-		    $('#name').addClass('invalid');
-			$('label[for="name"]').addClass('error');
-			event.preventDefault();
-		} else {
-			$('#name').removeClass('invalid');
-			$('label[for="name"]').removeClass('error');
-		}
-	};
-	const validateEmailField = (email, event) => {
-		if ( !isValidEmail(email) ) {
-		    $('#mail').addClass('invalid');
-			$('label[for="mail"]').addClass('error');
-			event.preventDefault();
-		} else {
-			$('#mail').removeClass('invalid');
-			$('label[for="mail"]').removeClass('error');
-		}
-	};
-	const validateCCNumField = ( ccNum, event ) => {
-		if ( !isValidCCNum(ccNum) ) {
-			$('#cc-num').addClass('invalid');
-			$('label[for="cc-num"]').addClass('error');
-			event.preventDefault();
-		} else {
-			$( '.error' ).text("");
-		}
-
-	};
-	const validateZipField = ( zip, event ) => {
-		if ( !isValidZip(zip) ) {
-			$('#zip').addClass('invalid');
-			$('label[for="zip"]').addClass('error');
-			event.preventDefault();
-		} else {
-			$( '.error' ).text("");
-		}
-
-	};
-	const validateCvvField = ( cvv, event ) => {
-		if ( !isValidCvv(cvv) ) {
-			$('#cvv').addClass('invalid');
-			$('label[for="cvv"]').addClass('error');
-			event.preventDefault();
-		} else {
-			$( '.error' ).text("");
-		}
-
-	};
-// Check to see if the user input matches the RegEx validation codes.
-
-	const isValidName = (name) => {
-		return name.length >= 2 && /[^A-Za-z0-9_'-]/;
+const validateNameField = (name, event) => {
+	if ( !isValidName(name) ) {
+	    $('#name').addClass('invalid');
+		$('label[for="name"]').addClass('error');
+		event.preventDefault();
+	} else {
+		$('#name').removeClass('invalid');
+		$('label[for="name"]').removeClass('error');
 	}
-	const isValidEmail = (email) => {
-		return email.length >= 4 && /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i.test(email);
-	};
-	const validateCheckboxField = ( isChecked, event ) => {
-			if (!isChecked) {
-				$('.activities legend').addClass('error');
-				event.preventDefault();
-			}
-		};
-	const isValidCCNum = (ccNum) => {
-	return ccNum.length >= 16 && /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35d{3})d{11})$/; 
-	};
-	const isValidZip = (zip) => {
-	return zip.length >= 5 && /\ d{ 5}/;
-	};
-	const isValidCvv = (cvv) => {
-	return cvv.length >= 3 && /[0-9]{3}+/;
-	};
+};
+const validateEmailField = (email, event) => {
+	if ( !isValidEmail(email) ) {
+	    $('#mail').addClass('invalid');
+		$('label[for="mail"]').addClass('error');
+		event.preventDefault();
+	} else {
+		$('#mail').removeClass('invalid');
+		$('label[for="mail"]').removeClass('error');
+	}
+};
+const validateCheckboxField = ( isChecked, event ) => {
+	if (!isChecked) {
+		$('.activities legend').addClass('error');
+		event.preventDefault();
+	} else {
+		$('.activities legend').removeClass('error');
+	}
+};
+const validateCCNumField = ( ccNum, event ) => {
+	if ( !isValidCCNum(ccNum) ) {
+		$('#cc-num').addClass('invalid');
+		$('label[for="cc-num"]').addClass('error');
+		event.preventDefault();
+	} else {
+		$('#cc-num').removeClass('invalid');
+		$('label[for="cc-num"]').removeClass('error');
+	}
 
-	
+};
+const validateZipField = ( zip, event ) => {
+	if ( !isValidZip(zip) ) {
+		$('#zip').addClass('invalid');
+		$('label[for="zip"]').addClass('error');
+		event.preventDefault();
+	} else {
+		$('#zip').removeClass('invalid');
+		$('label[for="zip"]').removeClass('error');
+	}
 
+};
+const validateCvvField = ( cvv, event ) => {
+	if ( !isValidCvv(cvv) ) {
+		$('#cvv').addClass('invalid');
+		$('label[for="cvv"]').addClass('error');
+		event.preventDefault();
+	} else {
+		$('#cvv').removeClass('invalid');
+		$('label[for="cvv"]').removeClass('error');
+	}
 
+};
 
+const isValidName = (name) => {
+	return name.length >= 2 && /^[a-zA-Z]+$/.test(name);
+}
+const isValidEmail = (email) => {
+	return email.length >= 4 && /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i.test(email);
+};
+const isValidCCNum = (ccNum) => {
+return ccNum.length >= 16; 
+};
+const isValidZip = (zip) => {
+return zip.length >= 5 && /^\d{5}$|^\d{5}-\d{4}$/.test(zip);
+};
+const isValidCvv = (cvv) => {
+return cvv.length >= 3 && /[0-9]{3}$/.test(cvv);
+};
 
