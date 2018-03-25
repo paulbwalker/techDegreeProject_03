@@ -3,18 +3,19 @@ $(function() {
 
 /****************************** JOB ROLE SECTION *********************************/
 
-	let $designOptionShow =	$('#colors-js-puns').removeClass('is-hidden');
-	// This function uses the select:selected pseudo class and removes the class 'is-hidden'
+	$('#other-title').hide(); // Hides the 'other' job role unless it is selected;
+
+	// This function uses the select:selected pseudo class and removes the class 'is-hidden'	
 	//  if the value matches with 'other' option then it adds the class else it removes that class.
 	const selectField = () => {
 		let $selectedOption = $('#title option:selected').val();
 
 		if ( $selectedOption === 'other' ) {
 			// the removeClass is used because the CSS has a visibility: hidden.
-			$('#other-title').removeClass('is-hidden');
+			$('#other-title').show();
 		} else {
 			// if it does not match 'other' then I addClass to the selected element.
-			$('#other-title').addClass('is-hidden');
+			$('#other-title').hide();
 		}
 	};
 
@@ -140,7 +141,7 @@ $(function() {
 	const $creditCard = $('div#credit-card').addClass('is-hidden');
 // Assign variables to retrieve the element when called.
 	const $byCredit = $('#payment option').eq(1).val();
-	const $payPal = $('div p').eq(0).addClass('is-hidden');
+	const $payPal = $('div p').eq(0).addClass('is-hidden');		
 	const $bitCoin = $('div p').eq(1).addClass('is-hidden');
 // This function shows what payment the users has selected. 
 	const makePayment = () => {
@@ -163,6 +164,16 @@ $(function() {
 		}
 	};
 
+    // const validatePayment = () => {
+    //     const ddlPayment = $("#payment");
+    //     if (ddlPayment.val() === "") {
+    //         //If the "Please Select" option is selected display error.
+    //         alert("Please select an option!");
+    //         return false;
+    //     }
+    //     return true;
+    // };
+
 // Assign a handler to the select option dropdown menu
 	$('#payment').on('change', makePayment);
 
@@ -178,7 +189,8 @@ $(function() {
 		const ccNum = $('#cc-num').val();
 		const zip = $('#zip').val();
 		const cvv = $('#cvv').val();
-		const activities = $('.activities legend').text();
+		const payPal = $('#pay-pal').text();
+
 
 		validateNameField( name, event );
 		validateEmailField( email, event );
@@ -187,14 +199,16 @@ $(function() {
 		validateZipField( zip, event );
 		validateCvvField( cvv, event );
 
-	// Resets the form once the form is submitted.
-		$('form')[0].reset();
+
+	// // Resets the form once the form is submitted.
+	// 	$('form')[0].reset();
 	}); // Close the form function
 }); // closing the jQuery ready function.
 
 const enableFastFeedback = (formElement) => {
 	const nameInput  = formElement.find('#name');
 	const emailInput = formElement.find('#mail');
+	const checkboxInput = formElement.find('.activities legend');
 	const ccNumInput = formElement.find('#cc-num');
 	const zipInput   = formElement.find('#zip');
 	const cvvInput   = formElement.find('#cvv');
@@ -205,6 +219,7 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidName(name) ) {
 		    	$('.user-name').text('Please enter at least two characters.');
+		    	event.preventDefault();	
 		} else {
 				$('.user-name').text('');
 			   }
@@ -215,6 +230,7 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidEmail(email) ) {
 	    	$('.user-email').text('Please enter a valid email address.');
+	    	event.preventDefault();	
 		} else {
 			$('.user-email').text('');
 	  	}
@@ -225,6 +241,7 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidCCNum(ccNum) ) {
 	    	$('.user-ccNum').text('Need 16 digits.');
+			event.preventDefault();			
 		} else {
 			$('.user-ccNum').text('');
 	  	}
@@ -235,6 +252,7 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidZip(zip) ) {
 	    	$('.user-zip').text('Need 5 digits.');
+			event.preventDefault();
 		} else {
 			$('.user-zip').text('');
 	  	}
@@ -245,6 +263,7 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidCvv(cvv) ) {
 	    	$('.user-cvv').text('Need 3 digits.');
+			event.preventDefault();
 		} else {
 			$('.user-cvv').text('');
 	  	}
