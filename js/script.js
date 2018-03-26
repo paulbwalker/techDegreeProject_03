@@ -147,14 +147,17 @@ $(function() {
 	const makePayment = () => {
 		if ( $('#payment option:selected').val() === 'credit card' ) {
 			$creditCard.removeClass('is-hidden');
+			// $creditCard.is(true);
 			$payPal.addClass('is-hidden');
 			$bitCoin.addClass('is-hidden');
 		} else if ( $('#payment option:selected').val() === 'paypal' ) {
 			$payPal.removeClass('is-hidden');
+			// $payPal.is(true);
 			$bitCoin.addClass('is-hidden');
 			$creditCard.addClass('is-hidden');
 		} else if ( $('#payment option:selected').val() === 'bitcoin' ) {
 			$bitCoin.removeClass('is-hidden');
+			// $bitCoin.is(true);
 			$creditCard.addClass('is-hidden');
 			$payPal.addClass('is-hidden');
 		} else {
@@ -164,15 +167,6 @@ $(function() {
 		}
 	};
 
-    // const validatePayment = () => {
-    //     const ddlPayment = $("#payment");
-    //     if (ddlPayment.val() === "") {
-    //         //If the "Please Select" option is selected display error.
-    //         alert("Please select an option!");
-    //         return false;
-    //     }
-    //     return true;
-    // };
 
 // Assign a handler to the select option dropdown menu
 	$('#payment').on('change', makePayment);
@@ -186,6 +180,7 @@ $(function() {
 		const name = $('#name').val();
 		const email = $('#mail').val();
 		const isChecked = $('.activities input[type="checkbox"]').is(':checked');
+		const isSelected = $('#payment option:selected');
 		const ccNum = $('#cc-num').val();
 		const zip = $('#zip').val();
 		const cvv = $('#cvv').val();
@@ -195,6 +190,7 @@ $(function() {
 		validateNameField( name, event );
 		validateEmailField( email, event );
 		validateCheckboxField( isChecked, event );
+		validateDropdownField( isSelected, event );
 		validateCCNumField( ccNum, event );
 		validateZipField( zip, event );
 		validateCvvField( cvv, event );
@@ -205,21 +201,24 @@ $(function() {
 	}); // Close the form function
 }); // closing the jQuery ready function.
 
+// This section is the variables for the fast feedback form submission.
 const enableFastFeedback = (formElement) => {
 	const nameInput  = formElement.find('#name');
 	const emailInput = formElement.find('#mail');
 	const checkboxInput = formElement.find('.activities legend');
+	const dropdownInput = formElement.find('.payment-info legend');
 	const ccNumInput = formElement.find('#cc-num');
 	const zipInput   = formElement.find('#zip');
 	const cvvInput   = formElement.find('#cvv');
 
+// This section enables the fast feedback on certain input before the form submission.
 	nameInput.blur(function(event) {
 		let name = $(this).val();
 		validateNameField(name, event);
 
 		if ( !isValidName(name) ) {
 		    	$('.user-name').text('Please enter at least two characters.');
-		    	event.preventDefault();	
+		    	// event.preventDefault();	
 		} else {
 				$('.user-name').text('');
 			   }
@@ -230,18 +229,39 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidEmail(email) ) {
 	    	$('.user-email').text('Please enter a valid email address.');
-	    	event.preventDefault();	
+	    	// event.preventDefault();	
 		} else {
 			$('.user-email').text('');
 	  	}
+	});
+	checkboxInput.change(function(event) {
+		let isChecked = $(this).is(":checked");
+		validateCheckboxField( checkbox, event );
+
+		if (!isChecked) {
+	    	$('.activities legend').addClass('error');
+			// event.preventDefault();			
+		} else {
+			$('.activities legend').removeClass('error');
+	  	}
+		
+	});
+	dropdownInput.change(function(event) {
+		let isSelected = $(this).is(":selected");
+		validateDropdownField( dropdown, event );
+
+		if (!isSelected) {
+			$(selectPayment).addClass('error');
+		} else {
+			$(selectPayment).removeClass('error');
+		}
 	});
 	ccNumInput.blur(function(event) {
 		let ccNum = $(this).val();
 		validateCCNumField(ccNum, event);
 
 		if ( !isValidCCNum(ccNum) ) {
-	    	$('.user-ccNum').text('Need 16 digits.');
-			event.preventDefault();			
+	    	$('.user-ccNum').text('Need 16 digits.');		
 		} else {
 			$('.user-ccNum').text('');
 	  	}
@@ -252,7 +272,6 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidZip(zip) ) {
 	    	$('.user-zip').text('Need 5 digits.');
-			event.preventDefault();
 		} else {
 			$('.user-zip').text('');
 	  	}
@@ -263,13 +282,14 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidCvv(cvv) ) {
 	    	$('.user-cvv').text('Need 3 digits.');
-			event.preventDefault();
 		} else {
 			$('.user-cvv').text('');
 	  	}
 	});
 
-};
+}; // This is the end of the fast form input validation.
+
+// Validate form input function on neccessary inputs. 
 const validateNameField = (name, event) => {
 	if ( !isValidName(name) ) {
 	    $('#name').addClass('invalid');
@@ -298,6 +318,16 @@ const validateCheckboxField = ( isChecked, event ) => {
 		$('.activities legend').removeClass('error');
 	}
 };
+const validateDropdownField = ( isSelected, event ) => {
+	let $paymentPlan = $('.payment-info legend').text();
+	if ($paymentPlan === 'Payment Info') {
+		$('.payment-info legend').addClass('error');
+	} else if ('Payment Info' !== $paymentPlan) {
+		console.log($(this));
+		$('.payment-info legend').removeClass('error');
+	} 
+};
+											
 const validateCCNumField = ( ccNum, event ) => {
 	if ( !isValidCCNum(ccNum) ) {
 		$('#cc-num').addClass('invalid');
@@ -332,6 +362,7 @@ const validateCvvField = ( cvv, event ) => {
 
 };
 
+// Varify inputs on specific RegEx.
 const isValidName = (name) => {
 	return name.length >= 2 && /^[a-zA-Z]+$/.test(name);
 }
