@@ -173,19 +173,22 @@ $(function() {
 
 /*   *****************         VALIDATE FORM      *******************    */	
 
+// Assign the form into a jquery variable.
 	const $form = $('form');
+// Call the fast feedback.
 	enableFastFeedback($form);
-	
-	$form.submit(function(event) {
+
+// Submit form if all validation is correct.
+	$form.submit(function(event) { 
 		const name = $('#name').val();
 		const email = $('#mail').val();
 		const isChecked = $('.activities input[type="checkbox"]').is(':checked');
-		const isSelected = $('#payment option:selected');
+		const isSelected = $('#payment option').is(':selected');
 		const ccNum = $('#cc-num').val();
 		const zip = $('#zip').val();
 		const cvv = $('#cvv').val();
-		const payPal = $('#pay-pal').text();
-
+		const payPal = $('#payment option:selected').val();
+		const bitCoin = $('#payment option:selected').val();
 
 		validateNameField( name, event );
 		validateEmailField( email, event );
@@ -195,9 +198,6 @@ $(function() {
 		validateZipField( zip, event );
 		validateCvvField( cvv, event );
 
-
-	// // Resets the form once the form is submitted.
-	// 	$('form')[0].reset();
 	}); // Close the form function
 }); // closing the jQuery ready function.
 
@@ -206,7 +206,6 @@ const enableFastFeedback = (formElement) => {
 	const nameInput  = formElement.find('#name');
 	const emailInput = formElement.find('#mail');
 	const checkboxInput = formElement.find('.activities legend');
-	const dropdownInput = formElement.find('.payment-info legend');
 	const ccNumInput = formElement.find('#cc-num');
 	const zipInput   = formElement.find('#zip');
 	const cvvInput   = formElement.find('#cvv');
@@ -218,7 +217,6 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidName(name) ) {
 		    	$('.user-name').text('Please enter at least two characters.');
-		    	// event.preventDefault();	
 		} else {
 				$('.user-name').text('');
 			   }
@@ -229,7 +227,6 @@ const enableFastFeedback = (formElement) => {
 
 		if ( !isValidEmail(email) ) {
 	    	$('.user-email').text('Please enter a valid email address.');
-	    	// event.preventDefault();	
 		} else {
 			$('.user-email').text('');
 	  	}
@@ -239,26 +236,16 @@ const enableFastFeedback = (formElement) => {
 		validateCheckboxField( checkbox, event );
 
 		if (!isChecked) {
-	    	$('.activities legend').addClass('error');
-			// event.preventDefault();			
+	    	$('.activities legend').addClass('error');		
 		} else {
 			$('.activities legend').removeClass('error');
 	  	}
 		
 	});
-	dropdownInput.change(function(event) {
-		let isSelected = $(this).is(":selected");
-		validateDropdownField( dropdown, event );
-
-		if (!isSelected) {
-			$(selectPayment).addClass('error');
-		} else {
-			$(selectPayment).removeClass('error');
-		}
-	});
 	ccNumInput.blur(function(event) {
 		let ccNum = $(this).val();
 		validateCCNumField(ccNum, event);
+		event.preventDefault();
 
 		if ( !isValidCCNum(ccNum) ) {
 	    	$('.user-ccNum').text('Need 16 digits.');		
@@ -269,6 +256,7 @@ const enableFastFeedback = (formElement) => {
 	zipInput.blur(function(event) {
 		let zip = $(this).val();
 		validateZipField(zip, event);
+		event.preventDefault();
 
 		if ( !isValidZip(zip) ) {
 	    	$('.user-zip').text('Need 5 digits.');
@@ -279,6 +267,7 @@ const enableFastFeedback = (formElement) => {
 	cvvInput.blur(function(event) {
 		let cvv = $(this).val();
 		validateCvvField(cvv, event);
+		event.preventDefault();
 
 		if ( !isValidCvv(cvv) ) {
 	    	$('.user-cvv').text('Need 3 digits.');
@@ -319,15 +308,22 @@ const validateCheckboxField = ( isChecked, event ) => {
 	}
 };
 const validateDropdownField = ( isSelected, event ) => {
-	let $paymentPlan = $('.payment-info legend').text();
-	if ($paymentPlan === 'Payment Info') {
+	let $selectMethod = $('#payment option:selected').val();
+	const $varifyCard = validateCCNumField + validateZipField + validateCvvField;
+	if ($selectMethod === 'select_method') {
 		$('.payment-info legend').addClass('error');
-	} else if ('Payment Info' !== $paymentPlan) {
-		console.log($(this));
+		event.preventDefault();
+	} else if ($selectMethod === 'credit card') {
+		return $varifyCard;
+	} else if ($selectMethod === payPal) {
+		return true;
+	} else if ($selectMethod === bitCoin) {
+		return true;
+	} else {
 		$('.payment-info legend').removeClass('error');
+		return true;
 	} 
-};
-											
+};											
 const validateCCNumField = ( ccNum, event ) => {
 	if ( !isValidCCNum(ccNum) ) {
 		$('#cc-num').addClass('invalid');
@@ -362,6 +358,7 @@ const validateCvvField = ( cvv, event ) => {
 
 };
 
+
 // Varify inputs on specific RegEx.
 const isValidName = (name) => {
 	return name.length >= 2 && /^[a-zA-Z]+$/.test(name);
@@ -370,12 +367,19 @@ const isValidEmail = (email) => {
 	return email.length >= 4 && /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i.test(email);
 };
 const isValidCCNum = (ccNum) => {
-return ccNum.length >= 16; 
+	return ccNum.length >= 16; 
 };
 const isValidZip = (zip) => {
-return zip.length >= 5 && /^\d{5}$|^\d{5}-\d{4}$/.test(zip);
+	return zip.length >= 5 && /^\d{5}$|^\d{5}-\d{4}$/.test(zip);
 };
 const isValidCvv = (cvv) => {
-return cvv.length >= 3 && /[0-9]{3}$/.test(cvv);
+	return cvv.length >= 3 && /[0-9]{3}$/.test(cvv);
 };
+const isValidPayPal = (paypal) => {
+	return true;
+};
+const isValidBitcoin = (bitcoin) => {
+	return true;
+};
+
 
