@@ -1,3 +1,10 @@
+/******************************************
+Treehouse Techdegree:
+FSJS project 3 - Interactive Forms
+By Paul B. Walker
+******************************************/
+
+
 // I used the jQuery ready event function in case the script was moved.
 $(function() {
 
@@ -78,8 +85,10 @@ $(function() {
 
 		if ( total === 0 ) {
 			$('.amount').val('');
+			$('.activities legend').addClass('error');
 		} else {
 			$('.amount').val('Amount: ' + '$ '+ total);
+			$('.activities legend').removeClass('error');
 		}
 	};
 // Calls the addSum function when the checkbox is checked.
@@ -137,20 +146,17 @@ $(function() {
 
 /*   *****************         PAYMENT INFO SECTION       *******************    */
 
-// Add the class to the select payment to hide that selection.
-	const $creditCard = $('div#credit-card').addClass('is-hidden');
+// // Add the class to the select payment to hide that selection.
+// 	const $creditCard = $('div#credit-card').addClass('is-hidden');
+
 // Assign variables to retrieve the element when called.
 	const $byCredit = $('#payment option').eq(1).val();
 	const $payPal = $('div p').eq(0).addClass('is-hidden');		
 	const $bitCoin = $('div p').eq(1).addClass('is-hidden');
+
 // This function shows what payment the users has selected. 
 	const makePayment = () => {
-		if ( $('#payment option:selected').val() === 'credit card' ) {
-			$creditCard.removeClass('is-hidden');
-			// $creditCard.is(true);
-			$payPal.addClass('is-hidden');
-			$bitCoin.addClass('is-hidden');
-		} else if ( $('#payment option:selected').val() === 'paypal' ) {
+		if ( $('#payment option:selected').val() === 'paypal' ) {
 			$payPal.removeClass('is-hidden');
 			// $payPal.is(true);
 			$bitCoin.addClass('is-hidden');
@@ -183,7 +189,6 @@ $(function() {
 		const name = $('#name').val();
 		const email = $('#mail').val();
 		const isChecked = $('.activities input[type="checkbox"]').is(':checked');
-		const isSelected = $('#payment option').is(':selected');
 		const ccNum = $('#cc-num').val();
 		const zip = $('#zip').val();
 		const cvv = $('#cvv').val();
@@ -192,8 +197,7 @@ $(function() {
 
 		validateNameField( name, event );
 		validateEmailField( email, event );
-		validateCheckboxField( isChecked, event );
-		validateDropdownField( isSelected, event );
+		validateCheckboxField ( isChecked, event );
 		validateCCNumField( ccNum, event );
 		validateZipField( zip, event );
 		validateCvvField( cvv, event );
@@ -231,12 +235,12 @@ const enableFastFeedback = (formElement) => {
 			$('.user-email').text('');
 	  	}
 	});
-	checkboxInput.change(function(event) {
+	checkboxInput.on('click', function(event) {
 		let isChecked = $(this).is(":checked");
+		event.preventDefault();
 		validateCheckboxField( checkbox, event );
-
 		if (!isChecked) {
-	    	$('.activities legend').addClass('error');		
+			$('.activities legend').addClass('error');		
 		} else {
 			$('.activities legend').removeClass('error');
 	  	}
@@ -248,9 +252,11 @@ const enableFastFeedback = (formElement) => {
 		event.preventDefault();
 
 		if ( !isValidCCNum(ccNum) ) {
-	    	$('.user-ccNum').text('Need 13 - 16 digits.');		
+				$('.user-ccNum').text('Need 13 - 16 digits.');
+				$('.payment-info legend').addClass('error');	
 		} else {
 			$('.user-ccNum').text('');
+			$('.payment-info legend').removeClass('error');	
 	  	}
 	});
 	zipInput.blur(function(event) {
@@ -259,9 +265,11 @@ const enableFastFeedback = (formElement) => {
 		event.preventDefault();
 
 		if ( !isValidZip(zip) ) {
-	    	$('.user-zip').text('Need 5 digits.');
+				$('.user-zip').text('Need 5 digits.');
+				$('.payment-info legend').addClass('error');
 		} else {
 			$('.user-zip').text('');
+			$('.payment-info legend').removeClass('error');	
 	  	}
 	});
 	cvvInput.blur(function(event) {
@@ -270,9 +278,11 @@ const enableFastFeedback = (formElement) => {
 		event.preventDefault();
 
 		if ( !isValidCvv(cvv) ) {
-	    	$('.user-cvv').text('Need 3 digits.');
+				$('.user-cvv').text('Need 3 digits.');
+				$('.payment-info legend').addClass('error');
 		} else {
 			$('.user-cvv').text('');
+			$('.payment-info legend').removeClass('error');	
 	  	}
 	});
 
@@ -310,10 +320,7 @@ const validateCheckboxField = ( isChecked, event ) => {
 const validateDropdownField = ( isSelected, event ) => {
 	let $selectMethod = $('#payment option:selected').val();
 	const $varifyCard = validateCCNumField + validateZipField + validateCvvField;
-	if ($selectMethod === 'select_method') {
-		$('.payment-info legend').addClass('error');
-		event.preventDefault();
-	} else if ($selectMethod === 'credit card') {
+	 if ($selectMethod === 'credit card') {
 		return $varifyCard;
 	} else if ($selectMethod === payPal) {
 		return true;
