@@ -380,7 +380,7 @@ const isValidZip = (zip) => {
 	return zip.length >= 5 && /^\d{5}$|^\d{5}-\d{4}$/.test(zip);
 };
 const isValidCvv = (cvv) => {
-	return cvv.length >= 3 && /[0-9]{3}$/.test(cvv);
+	return cvv.length === 3 && /[0-9]{3}$/.test(cvv);
 };
 const isValidPayPal = (paypal) => {
 	return true;
