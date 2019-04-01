@@ -35,7 +35,7 @@ $(function() {
 
 /* -------- T-SHIRT INFO  --------------------------------------------------------------- */
 
-/ Remove the color options in the Global scope to disable the color dropdown menu.
+// Remove the color options in the Global scope to disable the color dropdown menu.
 const $colors = $('#color option').remove();
 // Takes you back at the start of the application.
 	$('#color').append(`
