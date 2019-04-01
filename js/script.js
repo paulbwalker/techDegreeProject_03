@@ -35,8 +35,12 @@ $(function() {
 
 /* -------- T-SHIRT INFO  --------------------------------------------------------------- */
 
-// Hide the color dropdown menu.
-$('#color').hide();
+/ Remove the color options in the Global scope to disable the color dropdown menu.
+const $colors = $('#color option').remove();
+// Takes you back at the start of the application.
+	$('#color').append(`
+			 <option value="makeSelection"><-- Please make your selection</option>			 
+		`);
 
 /** The jQuery hide and show method did not yeild the results needed the first-child
  * would appear first even when selecting the heart js. This was the best way to avoid it. */ 
@@ -60,7 +64,9 @@ $('#color').hide();
 				<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
 		 `);
 	 } else {
-		$('#color').hide();
+		 $('#color').append(`
+			    <option value="makeSelection"><-- Please make your selection</option>			 
+		`);
 	 }
  };
  // Calls the function on the js puns or js heart.
