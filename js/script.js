@@ -45,8 +45,8 @@ const $colors = $('#color option').remove();
 /** The jQuery hide and show method did not yeild the results needed the first-child
  * would appear first even when selecting the heart js. This was the best way to avoid it. */ 
  const selectTheme = () => {
-
 	$('#color').show();
+	
 
  // To append the color options I use the remove method and assign it to $colors variable.
 	 let $colors = $('#color option').remove();
@@ -64,9 +64,9 @@ const $colors = $('#color option').remove();
 				<option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
 		 `);
 	 } else {
-		 $('#color').append(`
-			    <option value="makeSelection"><-- Please make your selection</option>			 
-		`);
+		$('#color').append(`
+				<option value="makeSelection"><-- Please make your selection</option>			 
+ 		`);
 	 }
  };
  // Calls the function on the js puns or js heart.
@@ -160,9 +160,11 @@ const $payOption = $('#payment');
 const $creditCard = $('#credit-card');
 const $payPal = $('p:contains("PayPal")');
 const $bitcoin = $('p:contains("Bitcoin")');
+const $selectPayMethod = $('#payment>option').eq(0);
 
 // function that only displays corresponding payment method
 // CC is first by default
+$selectPayMethod.hide();
 $payPal.hide();
 $bitcoin.hide();
 $payOption.val("credit card").attr("selected", true);
@@ -170,22 +172,19 @@ $payOption.val("credit card").attr("selected", true);
 $payOption.change(function(){
 
   if ($(this).val() == "credit card") {
-    $creditCard.show();
+		$creditCard.show();
     $bitcoin.hide();
-    $payPal.hide();
+		$payPal.hide();
   } else if ($(this).val() == "paypal") {
-      $payPal.show();
+			$payPal.show();
       $bitcoin.hide();
-      $creditCard.hide();
+			$creditCard.hide();
   } else if ($(this).val() == "bitcoin") {
-      $bitcoin.show();
+			$bitcoin.show();
       $payPal.hide();
-      $creditCard.hide();
-  } else if ($(this).val() == "select_method") {
-      $payPal.hide();
-      $bitcoin.hide();
-      $creditCard.hide();
-  }
+			$creditCard.hide();
+	} 
+	
 });
 
 
@@ -198,10 +197,10 @@ $('form').on('submit',function (event) {
 	const ccNum = $('#cc-num').val();
 	const zip = $('#zip').val();
 	const cvv = $('#cvv').val();
-	const selectedCard = $('#payment>option').eq(1);
+	const $selectedCard = $('#payment>option').eq(1);
 
 
-	if (selectedCard.is(':selected') ) {
+	if ($selectedCard.is(':selected') ) {
 		validateCreditCard(ccNum, event);
 		validateZip(zip, event);
 		validateCvv(cvv, event);
@@ -212,8 +211,10 @@ $('form').on('submit',function (event) {
 		validateName(name, event);
 		validateEmail(email, event);
 		validateActivities(checked, event);
-	}
+	} 
+	
 })
+
 
 
 /* -------- VALIDATE NAME FIELD ----------------------------------------------------------- */
@@ -272,8 +273,6 @@ const validateCvv = (cvv, event) => {
 		$('.user-cvv').text('');
 	}
 }
-
-
 
 
 /* -------- IS VALID FUNCTION -------------------------------------------------------------- */
